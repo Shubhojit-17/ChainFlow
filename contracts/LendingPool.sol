@@ -236,7 +236,7 @@ contract LendingPool is Ownable, ReentrancyGuard {
     /**
      * @notice Repay a loan with interest
      * @dev Borrower must send principal + 5% interest
-     *      Interest is added to the pool for investors
+     *      Interest is distributed proportionally to all investors
      * @param tokenId The ID of the funded invoice
      */
     function repayLoan(uint256 tokenId) external payable nonReentrant {
@@ -257,6 +257,20 @@ contract LendingPool is Ownable, ReentrancyGuard {
         totalBorrowed -= loan.principal;
         totalLiquidity += loan.principal; // Principal returns to pool
         totalInterestEarned += loan.interestAmount;
+        
+        // Distribute interest proportionally to all investors
+        uint256 interestToDistribute = loan.interestAmount;
+        if (totalLiquidity > 0 && investors.length > 0) {
+            for (uint256 i = 0; i < investors.length; i++) {
+                address investor = investors[i];
+                uint256 investorShare = investorBalances[investor];
+                if (investorShare > 0) {
+                    // Calculate proportional interest share
+                    uint256 interestShare = (interestToDistribute * investorShare) / totalLiquidity;
+                    investorBalances[investor] += interestShare;
+                }
+            }
+        }
         
         // Interest is added to total liquidity (distributed to pool)
         totalLiquidity += loan.interestAmount;

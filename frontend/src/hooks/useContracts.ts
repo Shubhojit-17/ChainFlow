@@ -110,7 +110,7 @@ export function useInvestorBalance(address: string | undefined) {
 
 // Hook for depositing to lending pool
 export function useDeposit() {
-  const { writeContract, data: hash, isPending, error } = useWriteContract();
+  const { writeContract, data: hash, isPending, error, reset } = useWriteContract();
   
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
     hash,
@@ -132,12 +132,13 @@ export function useDeposit() {
     isSuccess, 
     error,
     hash,
+    reset,
   };
 }
 
 // Hook for withdrawing from lending pool
 export function useWithdraw() {
-  const { writeContract, data: hash, isPending, error } = useWriteContract();
+  const { writeContract, data: hash, isPending, error, reset } = useWriteContract();
   
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
     hash,
@@ -152,7 +153,7 @@ export function useWithdraw() {
     });
   };
 
-  return { withdraw, isPending, isConfirming, isSuccess, error, hash };
+  return { withdraw, isPending, isConfirming, isSuccess, error, hash, reset };
 }
 
 // Hook for minting an invoice
@@ -225,7 +226,7 @@ export function useVerifyWithZK() {
 
 // Hook for funding an invoice
 export function useFundInvoice() {
-  const { writeContract, data: hash, isPending, error } = useWriteContract();
+  const { writeContract, data: hash, isPending, error, reset } = useWriteContract();
   
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
     hash,
@@ -240,7 +241,7 @@ export function useFundInvoice() {
     });
   };
 
-  return { fundInvoice, isPending, isConfirming, isSuccess, error, hash };
+  return { fundInvoice, isPending, isConfirming, isSuccess, error, hash, reset };
 }
 
 // Hook for repaying a loan
@@ -262,6 +263,24 @@ export function useRepayLoan() {
   };
 
   return { repayLoan, isPending, isConfirming, isSuccess, error, hash };
+}
+
+// Hook for getting loan repayment amount from contract
+export function useRepaymentAmount(tokenId: number | undefined) {
+  const { data, isLoading, refetch } = useReadContract({
+    address: CONTRACT_ADDRESSES.LENDING_POOL as `0x${string}`,
+    abi: LENDING_POOL_ABI,
+    functionName: 'getRepaymentAmount',
+    args: tokenId ? [BigInt(tokenId)] : undefined,
+  });
+
+  const repaymentInfo = data ? {
+    principal: (data as any)[0] as bigint,
+    interest: (data as any)[1] as bigint,
+    total: (data as any)[2] as bigint,
+  } : null;
+
+  return { repaymentInfo, isLoading, refetch };
 }
 
 // Hook for getting invoice details
@@ -313,25 +332,6 @@ export function useCurrentTokenId() {
   });
 
   return { currentTokenId: data as bigint | undefined, isLoading, refetch };
-}
-
-// Hook for getting repayment amount
-export function useRepaymentAmount(tokenId: number | undefined) {
-  const { data, isLoading } = useReadContract({
-    address: CONTRACT_ADDRESSES.LENDING_POOL as `0x${string}`,
-    abi: LENDING_POOL_ABI,
-    functionName: 'getRepaymentAmount',
-    args: tokenId ? [BigInt(tokenId)] : undefined,
-  });
-
-  return {
-    repayment: data ? {
-      principal: data[0],
-      interest: data[1],
-      total: data[2],
-    } : null,
-    isLoading,
-  };
 }
 
 // Types for activity events

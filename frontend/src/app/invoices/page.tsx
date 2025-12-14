@@ -28,6 +28,7 @@ import {
   useVerifyWithOracle,
   useVerifyWithZK,
   useRepayLoan,
+  useRepaymentAmount,
   formatETH,
   formatDate,
   Invoice
@@ -66,6 +67,7 @@ const InvoiceCard = ({
   isRepaying: boolean;
 }) => {
   const { invoice, isLoading, refetch } = useInvoice(tokenId);
+  const { repaymentInfo, isLoading: isLoadingRepayment } = useRepaymentAmount(tokenId);
 
   if (isLoading || !invoice) {
     return (
@@ -184,18 +186,19 @@ const InvoiceCard = ({
               <span className="font-medium">Repayment Required</span>
             </div>
             <span className="text-lg font-bold text-white">
-              {formatETH(invoice.amount * 105n / 100n)} ETH
+              {repaymentInfo ? formatETH(repaymentInfo.total) : formatETH(invoice.amount * 105n / 100n)} ETH
             </span>
           </div>
           <p className="text-sm text-gray-400 mb-3">
-            Principal: {formatETH(invoice.amount)} ETH + Interest: {formatETH(invoice.amount * 5n / 100n)} ETH
+            Principal: {repaymentInfo ? formatETH(repaymentInfo.principal) : formatETH(invoice.amount)} ETH + Interest: {repaymentInfo ? formatETH(repaymentInfo.interest) : formatETH(invoice.amount * 5n / 100n)} ETH
           </p>
           <Button
             variant="primary"
             fullWidth
             icon={DollarSign}
-            onClick={() => onRepay(tokenId, invoice.amount * 105n / 100n)}
-            loading={isRepaying}
+            onClick={() => onRepay(tokenId, repaymentInfo ? repaymentInfo.total : invoice.amount * 105n / 100n)}
+            loading={isRepaying || isLoadingRepayment}
+            disabled={!repaymentInfo}
           >
             Repay Loan
           </Button>

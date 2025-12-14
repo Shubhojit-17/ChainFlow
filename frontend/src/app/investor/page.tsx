@@ -131,6 +131,13 @@ const TransactionModal = ({
 }) => {
   const [amount, setAmount] = useState('');
 
+  // Reset amount when modal opens/closes
+  useEffect(() => {
+    if (!isOpen) {
+      setAmount('');
+    }
+  }, [isOpen]);
+
   const handleSubmit = () => {
     if (!amount || parseFloat(amount) <= 0) {
       toast.error('Please enter a valid amount');
@@ -215,40 +222,76 @@ export default function InvestorPage() {
   const { stats, isLoading: statsLoading, refetch: refetchStats } = usePoolStats();
   const { balance, rawBalance, isLoading: balanceLoading, refetch: refetchBalance } = useInvestorBalance(address);
   const { currentTokenId, refetch: refetchTokenId } = useCurrentTokenId();
-  const { deposit, isPending: isDepositing, isSuccess: depositSuccess } = useDeposit();
-  const { withdraw, isPending: isWithdrawing, isSuccess: withdrawSuccess } = useWithdraw();
-  const { fundInvoice, isPending: isFunding, isSuccess: fundSuccess } = useFundInvoice();
+  const { deposit, isPending: isDepositing, isSuccess: depositSuccess, error: depositError, reset: resetDeposit } = useDeposit();
+  const { withdraw, isPending: isWithdrawing, isSuccess: withdrawSuccess, error: withdrawError, reset: resetWithdraw } = useWithdraw();
+  const { fundInvoice, isPending: isFunding, isSuccess: fundSuccess, error: fundError, reset: resetFund } = useFundInvoice();
 
   // Handle deposit success
   useEffect(() => {
     if (depositSuccess) {
       toast.success('Deposit successful!');
       setDepositModalOpen(false);
-      refetchStats();
-      refetchBalance();
+      // Delay refetch to allow blockchain state to update
+      setTimeout(() => {
+        refetchStats();
+        refetchBalance();
+        resetDeposit(); // Reset for next deposit
+      }, 1000);
     }
-  }, [depositSuccess, refetchStats, refetchBalance]);
+  }, [depositSuccess, refetchStats, refetchBalance, resetDeposit]);
+
+  // Handle deposit error
+  useEffect(() => {
+    if (depositError) {
+      console.error('Deposit error:', depositError);
+      toast.error('Deposit failed: ' + (depositError.message || 'Unknown error'));
+    }
+  }, [depositError]);
 
   // Handle withdraw success
   useEffect(() => {
     if (withdrawSuccess) {
-      toast.success('Withdrawal successful!');
+      toast.success('Withdrawal successful! ETH has been sent to your wallet.');
       setWithdrawModalOpen(false);
-      refetchStats();
-      refetchBalance();
+      // Delay refetch to allow blockchain state to update
+      setTimeout(() => {
+        refetchStats();
+        refetchBalance();
+        resetWithdraw(); // Reset for next withdrawal
+      }, 1000);
     }
-  }, [withdrawSuccess, refetchStats, refetchBalance]);
+  }, [withdrawSuccess, refetchStats, refetchBalance, resetWithdraw]);
+
+  // Handle withdraw error
+  useEffect(() => {
+    if (withdrawError) {
+      console.error('Withdraw error:', withdrawError);
+      toast.error('Withdrawal failed: ' + (withdrawError.message || 'Unknown error'));
+    }
+  }, [withdrawError]);
 
   // Handle fund success
   useEffect(() => {
     if (fundSuccess) {
       toast.success('Invoice funded successfully!');
-      refetchStats();
-      refetchBalance();
-      refetchTokenId();
-      setRefreshKey(prev => prev + 1); // Force invoice cards to refresh
+      // Delay refetch to allow blockchain state to update
+      setTimeout(() => {
+        refetchStats();
+        refetchBalance();
+        refetchTokenId();
+        setRefreshKey(prev => prev + 1); // Force invoice cards to refresh
+        resetFund(); // Reset for next fund operation
+      }, 1000);
     }
-  }, [fundSuccess, refetchStats, refetchBalance, refetchTokenId]);
+  }, [fundSuccess, refetchStats, refetchBalance, refetchTokenId, resetFund]);
+
+  // Handle fund error
+  useEffect(() => {
+    if (fundError) {
+      console.error('Fund error:', fundError);
+      toast.error('Funding failed: ' + (fundError.message || 'Unknown error'));
+    }
+  }, [fundError]);
 
   const handleDeposit = (amount: string) => {
     deposit(amount);
@@ -263,9 +306,9 @@ export default function InvestorPage() {
   };
 
   // Calculate portfolio stats
-  const myBalance = balance ? formatETH(balance) : '0';
-  const myRawBalance = rawBalance ? formatETH(rawBalance) : '0'; // Original deposit (withdrawable)
-  const myInterestEarned = balance && rawBalance ? formatETH(balance - rawBalance) : '0';
+  // Note: After contract fix, rawBalance now includes deposit + distributed interest
+  const myBalance = rawBalance ? formatETH(rawBalance) : '0';
+  const myInterestEarned = stats ? formatETH(stats.interestEarned) : '0'; // Total pool interest for display
   const totalLiquidity = stats ? formatETH(stats.available + stats.borrowed) : '0';
   const poolUtilization = stats && stats.available + stats.borrowed > 0n
     ? Math.round(Number(stats.borrowed) / Number(stats.available + stats.borrowed) * 100)
@@ -354,11 +397,11 @@ export default function InvestorPage() {
                 
                 <div className="grid grid-cols-2 gap-4 pt-3 border-t border-white/10">
                   <div>
-                    <p className="text-gray-500 text-xs mb-1">Deposited</p>
-                    <p className="text-white font-semibold">{myRawBalance} ETH</p>
+                    <p className="text-gray-500 text-xs mb-1">Withdrawable</p>
+                    <p className="text-white font-semibold">{myBalance} ETH</p>
                   </div>
                   <div>
-                    <p className="text-gray-500 text-xs mb-1">Interest Earned</p>
+                    <p className="text-gray-500 text-xs mb-1">Pool Interest Earned</p>
                     <p className="text-green-400 font-semibold">+{myInterestEarned} ETH</p>
                   </div>
                 </div>
