@@ -1,0 +1,29 @@
+{
+  "name": "chainflow-factor",
+  "version": "1.0.0",
+  "description": "Decentralized, Privacy-Preserving Supply Chain Financing Platform",
+  "scripts": {
+    "compile": "npx hardhat compile",
+    "test": "npx hardhat test",
+    "node": "npx hardhat node",
+    "deploy": "npx hardhat run scripts/deploy.js --network localhost",
+    "deploy:local": "npx hardhat run scripts/deploy.js --network localhost"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-chai-matchers": "^2.1.0",
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "@openzeppelin/contracts": "^5.0.0",
+    "chai": "^4.5.0",
+    "hardhat": "^2.19.0"
+  },
+  "keywords": [
+    "blockchain",
+    "defi",
+    "supply-chain",
+    "invoice-financing",
+    "nft",
+    "zk-proofs"
+  ],
+  "author": "ChainFlow Team",
+  "license": "MIT"
+}
