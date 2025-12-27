@@ -21,12 +21,12 @@ export default function Footer() {
               </div>
               <div>
                 <span className="text-xl font-bold text-white">ChainFlow</span>
-                <span className="text-xl font-light text-purple-400 ml-1">Factor</span>
+                <span className="text-xs text-purple-400 ml-2 px-2 py-0.5 bg-purple-500/20 rounded-full">LMA Edge</span>
               </div>
             </Link>
             <p className="text-gray-400 max-w-md leading-relaxed mb-6">
-              Decentralized supply chain financing powered by blockchain technology. 
-              Transform your invoices into instant liquidity with privacy-preserving verification.
+              Enterprise-grade loan lifecycle management with permissioned ledger technology. 
+              Track syndicated loans from mandate to maturity with immutable audit trails.
             </p>
             <div className="flex items-center gap-4">
               <a href="#" className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 
@@ -51,7 +51,7 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-4">Platform</h4>
             <ul className="space-y-3">
-              {['Dashboard', 'My Invoices', 'Invest', 'Documentation'].map((item) => (
+              {['Dashboard', 'Loan Portfolio', 'Lender View', 'Analytics'].map((item) => (
                 <li key={item}>
                   <a href="#" className="text-gray-400 hover:text-white transition-colors">
                     {item}
@@ -64,7 +64,7 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-4">Resources</h4>
             <ul className="space-y-3">
-              {['Whitepaper', 'Smart Contracts', 'Security Audit', 'FAQ'].map((item) => (
+              {['Tech Stack', 'Implementation', 'API Reference', 'Support'].map((item) => (
                 <li key={item}>
                   <a href="#" className="text-gray-400 hover:text-white transition-colors">
                     {item}
@@ -78,7 +78,7 @@ export default function Footer() {
         {/* Bottom */}
         <div className="mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-gray-500 text-sm">
-            © 2024 ChainFlow Factor. Built for the future of finance.
+            © 2024 ChainFlow. Built for the LMA Edge Hackathon.
           </p>
           <div className="flex items-center gap-6 text-sm text-gray-500">
             <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>

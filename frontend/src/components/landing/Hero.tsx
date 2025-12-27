@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { 
   FileText, 
-  Wallet, 
+  Building2, 
   TrendingUp, 
   Shield, 
   ArrowRight,
@@ -11,7 +11,9 @@ import {
   ChevronRight,
   Zap,
   Lock,
-  Globe
+  Globe,
+  CheckCircle,
+  Leaf
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -86,7 +88,7 @@ export default function Hero() {
             bg-gradient-to-r from-purple-500/10 to-cyan-500/10 
             border border-purple-500/20 backdrop-blur-sm">
             <Sparkles className="w-4 h-4 text-purple-400" />
-            <span className="text-sm text-purple-300">Powered by Zero-Knowledge Proofs</span>
+            <span className="text-sm text-purple-300">Powered by Permissioned Ledger Technology</span>
           </div>
         </motion.div>
 
@@ -97,9 +99,9 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-center text-5xl md:text-7xl font-bold mb-6 leading-tight"
         >
-          <span className="text-white">Transform Invoices into</span>
+          <span className="text-white">Loan Lifecycle</span>
           <br />
-          <span className="gradient-text">Instant Liquidity</span>
+          <span className="gradient-text">Transparency Platform</span>
         </motion.h1>
 
         {/* Subtitle */}
@@ -109,8 +111,8 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-center text-xl text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed"
         >
-          Decentralized supply chain financing with privacy-preserving verification. 
-          Tokenize your invoices as NFTs and access funding within minutes, not months.
+          Enterprise-grade syndicated loan management with immutable audit trails. 
+          Track loan states, covenants, documents, and ESG compliance across all participants.
         </motion.p>
 
         {/* CTA Buttons */}
@@ -125,7 +127,7 @@ export default function Hero() {
               rounded-2xl font-semibold text-white text-lg overflow-hidden transition-all duration-300
               hover:shadow-glow-md hover:scale-105">
               <span className="relative z-10 flex items-center gap-2">
-                Launch App
+                Agent Bank Portal
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </span>
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-600 
@@ -134,8 +136,8 @@ export default function Hero() {
           </Link>
           <Link href="/investor">
             <button className="glass-button flex items-center gap-2 text-lg">
-              <Wallet className="w-5 h-5" />
-              Become an Investor
+              <Building2 className="w-5 h-5" />
+              Lender Dashboard
             </button>
           </Link>
         </motion.div>
@@ -148,10 +150,10 @@ export default function Hero() {
           className="glass-card p-8 md:p-12 mb-32"
         >
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <StatCard value="$2.5M+" label="Total Value Locked" delay={0.1} />
-            <StatCard value="500+" label="Invoices Funded" delay={0.2} />
-            <StatCard value="5%" label="Fixed APY" delay={0.3} />
-            <StatCard value="<1hr" label="Average Funding Time" delay={0.4} />
+            <StatCard value="150+" label="Active Loans Tracked" delay={0.1} />
+            <StatCard value="8" label="Lifecycle Stages" delay={0.2} />
+            <StatCard value="100%" label="Audit Trail Coverage" delay={0.3} />
+            <StatCard value="<30s" label="Event Recording" delay={0.4} />
           </div>
         </motion.div>
 
@@ -166,50 +168,50 @@ export default function Hero() {
             Why Choose <span className="gradient-text">ChainFlow</span>?
           </h2>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Built for the future of supply chain finance with cutting-edge blockchain technology
+            Enterprise-grade loan lifecycle management with permissioned ledger transparency
           </p>
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-32">
           <FeatureCard
             icon={FileText}
-            title="Invoice NFTs"
-            description="Tokenize your invoices as unique NFTs with verified metadata stored on IPFS for permanent, tamper-proof records."
+            title="Lifecycle State Engine"
+            description="Track loans through 8 defined stages from Mandate to Maturity with controlled transitions and role-based permissions."
             gradient="bg-gradient-to-br from-purple-500 to-purple-700"
             delay={0.1}
           />
           <FeatureCard
             icon={Shield}
-            title="ZK Privacy"
-            description="Zero-Knowledge proofs verify invoice validity without exposing sensitive buyer information to competitors."
+            title="Immutable Audit Trail"
+            description="Every loan event recorded on a permissioned ledger. State changes, covenant events, and documents are tamper-evident."
             gradient="bg-gradient-to-br from-cyan-500 to-cyan-700"
             delay={0.2}
           />
           <FeatureCard
-            icon={Zap}
-            title="Oracle Verification"
-            description="Chainlink oracles automatically verify delivery status from shipping providers before releasing funds."
+            icon={CheckCircle}
+            title="Covenant Monitoring"
+            description="Define and track financial covenants with real-time compliance status. Automated alerts for at-risk situations."
             gradient="bg-gradient-to-br from-yellow-500 to-orange-600"
             delay={0.3}
           />
           <FeatureCard
             icon={TrendingUp}
-            title="Instant Liquidity"
-            description="Get funded within minutes, not weeks. Our lending pool provides immediate access to working capital."
+            title="Ownership Visibility"
+            description="Track syndicate participation and secondary market transfers with complete ownership history for all participants."
             gradient="bg-gradient-to-br from-green-500 to-emerald-600"
             delay={0.4}
           />
           <FeatureCard
             icon={Lock}
-            title="Secure Escrow"
-            description="Smart contracts hold funds in secure escrow, automatically distributing payments on invoice maturity."
+            title="Document Hash Registry"
+            description="Verify document integrity without storing sensitive content. SHA-256 hashes prove existence and authenticity."
             gradient="bg-gradient-to-br from-pink-500 to-rose-600"
             delay={0.5}
           />
           <FeatureCard
-            icon={Globe}
-            title="Global Access"
-            description="Borderless financing for SMEs worldwide. No geographical restrictions, no traditional banking barriers."
+            icon={Leaf}
+            title="ESG & Green Loans"
+            description="Track sustainability-linked KPIs, green loan classifications, and ESG reporting deadlines with immutable records."
             gradient="bg-gradient-to-br from-blue-500 to-indigo-600"
             delay={0.6}
           />
@@ -223,7 +225,7 @@ export default function Hero() {
           className="relative"
         >
           <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-16">
-            How It <span className="gradient-text">Works</span>
+            Loan <span className="gradient-text">Lifecycle</span>
           </h2>
 
           <div className="relative">
@@ -233,10 +235,10 @@ export default function Hero() {
 
             <div className="grid md:grid-cols-4 gap-8">
               {[
-                { step: '01', title: 'Upload Invoice', desc: 'Submit your invoice details and upload supporting documents' },
-                { step: '02', title: 'Verify', desc: 'Oracle confirms delivery, ZK proof validates authenticity' },
-                { step: '03', title: 'Get Funded', desc: 'Receive instant funding from the decentralized lending pool' },
-                { step: '04', title: 'Repay', desc: 'Repay on invoice maturity with a fixed 5% interest rate' },
+                { step: '01', title: 'Mandated', desc: 'Agent Bank appointed, mandate letter signed and recorded' },
+                { step: '02', title: 'Documentation', desc: 'Legal docs drafted, reviewed, and hash-verified on ledger' },
+                { step: '03', title: 'Active', desc: 'Loan funded, covenant monitoring begins automatically' },
+                { step: '04', title: 'Matured', desc: 'Facility closed with complete audit trail preserved' },
               ].map((item, index) => (
                 <motion.div
                   key={item.step}

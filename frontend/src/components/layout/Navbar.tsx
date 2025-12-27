@@ -10,16 +10,17 @@ import {
   X, 
   Layers, 
   FileText, 
-  Wallet, 
+  Building2, 
   BarChart3, 
   Settings,
-  ChevronDown
+  ChevronDown,
+  Shield
 } from 'lucide-react';
 
 const navLinks = [
   { href: '/dashboard', label: 'Dashboard', icon: BarChart3 },
-  { href: '/invoices', label: 'My Invoices', icon: FileText },
-  { href: '/investor', label: 'Invest', icon: Wallet },
+  { href: '/invoices', label: 'Loan Portfolio', icon: FileText },
+  { href: '/investor', label: 'Lender View', icon: Building2 },
 ];
 
 export default function Navbar() {
@@ -46,7 +47,7 @@ export default function Navbar() {
                   </div>
                   <div className="hidden sm:block">
                     <span className="text-xl font-bold text-white">ChainFlow</span>
-                    <span className="text-xl font-light text-purple-400 ml-1">Factor</span>
+                    <span className="text-xs text-purple-400 ml-2 px-2 py-0.5 bg-purple-500/20 rounded-full">LMA Edge</span>
                   </div>
                 </Link>
 
@@ -99,7 +100,7 @@ export default function Navbar() {
                                     onClick={openConnectModal}
                                     className="glass-button flex items-center gap-2"
                                   >
-                                    <Wallet className="w-4 h-4" />
+                                    <Building2 className="w-4 h-4" />
                                     Connect Wallet
                                   </button>
                                 );

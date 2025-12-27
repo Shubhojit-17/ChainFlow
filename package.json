@@ -1,7 +1,7 @@
 {
-  "name": "chainflow-factor",
+  "name": "chainflow",
   "version": "1.0.0",
-  "description": "Decentralized, Privacy-Preserving Supply Chain Financing Platform",
+  "description": "Loan Lifecycle Management & Transparency Platform for Syndicated Lending",
   "scripts": {
     "compile": "npx hardhat compile",
     "test": "npx hardhat test",
@@ -17,12 +17,13 @@
     "hardhat": "^2.19.0"
   },
   "keywords": [
-    "blockchain",
-    "defi",
-    "supply-chain",
-    "invoice-financing",
-    "nft",
-    "zk-proofs"
+    "loan-lifecycle",
+    "syndicated-lending",
+    "agent-bank",
+    "covenant-monitoring",
+    "esg-tracking",
+    "permissioned-ledger",
+    "lma-edge"
   ],
   "author": "ChainFlow Team",
   "license": "MIT"

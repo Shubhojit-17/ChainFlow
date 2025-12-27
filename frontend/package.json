@@ -1,6 +1,7 @@
 {
   "name": "chainflow-frontend",
   "version": "1.0.0",
+  "description": "ChainFlow - Loan Lifecycle Management Platform Frontend",
   "private": true,
   "scripts": {
     "dev": "next dev",
